@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Plateau{
-    private int nbLignes;
-    private int nbColonnes;
-    private int pourcentageDeBombes;
-    private int nbBombes;
-    private List<lePlateau> lesCases;
+    protected int nbLignes;
+    protected int nbColonnes;
+    protected int pourcentageDeBombes;
+    protected int nbBombes;
+    protected CaseIntelligente[][] plateau;
 
     public Plateau(int nbLignes, int nbColonnes, int pourcentageDeBombes){
         this.nbLignes = nbLignes;
@@ -17,19 +17,58 @@ public class Plateau{
     }
 
     private void creerLesCasesVides(){
+        plateau = new CaseIntelligente[nbLignes][nbColonnes];
         for (int x = 0; x < this.getNbLignes(); x++){
             for (int y = 0; y < this.getNbColonnes(); y++){
-                ;
+                plateau[x][y] = new CaseIntelligente();
             }
         }
+        rendLesCasesIntelligentes();
     }
 
     private void rendLesCasesIntelligentes(){
         for (int x = 0; x < this.getNbLignes(); x++){
             for (int y = 0; y < this.getNbColonnes(); y++){
-                ;
+                for (int dx = -1; dx <= 1; dx++){
+                    for (int dy = -1; dy <= 1; dy++){
+                        try{
+                            plateau[x][y].ajouteVoisine(plateau[x+dx][y+dy]);
+                        } catch (ArrayIndexOutOfBoundsException ignored){}
+                    }
+                }
             }
         }
+    }
+
+    public int getNbLignes(){
+        return this.nbLignes;
+    }
+
+    public int getNbColonnes(){
+        return this.nbColonnes;
+    }
+
+    public int getNbTotalBombes(){
+        return this.nbBombes;
+    }
+
+    public CaseIntelligente getCase(int numLigne, int numColonne){
+        return this.lePlateau.get(numLigne).get(numColonne);
+    }
+    
+    public int getCaseMarquees(){
+        int nbMarquees = 0;
+        for (int x = 0; x < this.getNbLignes(); x++){
+            for (int y = 0; y < this.getNbColonnes(); y++){
+                if (this.getCase(x, y).estMarquee()){
+                    nbMarquees = nbMarquees + 1;
+                }
+            }
+        }
+        return nbMarquees;
+    }
+
+    public void poseBombe(int x, int y){    
     }
 
     protected void poseDesBombesAleatoirement(){

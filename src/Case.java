@@ -19,7 +19,7 @@ public class Case {
         this.contientUneBombe = true;
     }
 
-    public contientUneBombe(){
+    public boolean contientUneBombe(){
         return this.contientUneBombe;
     }
 
@@ -31,11 +31,11 @@ public class Case {
         return this.estMarquee;
     }
 
-    public reveler(){
+    public void reveler(){
         this.estMarquee = true;
     }
 
-    public marquer(){
+    public void marquer(){
         this.estMarquee = true;
     }
 }
